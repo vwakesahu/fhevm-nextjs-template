@@ -1,7 +1,9 @@
 "use client";
+import Login from "@/components/login";
 import { Input } from "@/components/ui/input";
 import { getInstance } from "@/utils/fhEVM";
 import { toHexString } from "@/utils/utils";
+import { usePrivy } from "@privy-io/react-auth";
 import { CopyIcon } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -91,6 +93,7 @@ const GroupInput = ({ group, fhEVM }) => {
 };
 
 export default function Home() {
+  const { authenticated } = usePrivy();
   const [fhEVM, setFhEVM] = useState(null);
 
   useEffect(() => {
@@ -122,11 +125,15 @@ export default function Home() {
           />
         </a>
       </div>
-      <div className="h-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-x-20 lg:max-w-5xl mt-20">
-        {groups.map((group) => (
-          <GroupInput key={group.controlId} group={group} fhEVM={fhEVM} />
-        ))}
-      </div>
+      {authenticated ? (
+        <div className="h-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-x-20 lg:max-w-5xl mt-20">
+          {groups.map((group) => (
+            <GroupInput key={group.controlId} group={group} fhEVM={fhEVM} />
+          ))}
+        </div>
+      ) : (
+        <Login />
+      )}
     </main>
   );
 }
