@@ -1,5 +1,5 @@
 "use client";
-import Loader from "@/components/Loader";
+import Loader from "@/components/loader";
 import Login from "@/components/login";
 import { Input } from "@/components/ui/input";
 import { getInstance } from "@/utils/fhEVM";
