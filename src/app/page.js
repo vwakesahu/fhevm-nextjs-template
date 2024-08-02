@@ -12,19 +12,19 @@ import { toast } from "sonner";
 const groups = [
   {
     controlId: "uint8",
-    inputLabel: "uint8",
+    inputLabel: "Uint 8",
     outputLabel: "ciphertext",
     encryptFn: (instance) => instance.encrypt8,
   },
   {
     controlId: "uint16",
-    inputLabel: "uint16",
+    inputLabel: "Uint 16",
     outputLabel: "ciphertext",
     encryptFn: (instance) => instance.encrypt16,
   },
   {
     controlId: "uint32",
-    inputLabel: "uint32",
+    inputLabel: "Uint 32",
     outputLabel: "ciphertext",
     encryptFn: (instance) => instance.encrypt32,
   },
@@ -43,28 +43,28 @@ const GroupInput = ({ group, fhEVM }) => {
 
   return (
     <div className="flex flex-col mb-4">
-      <div className="mb-4">
+      <div className="mb-5 grid gap-3">
         <label
           htmlFor={`${controlId}-input`}
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-sm font-bold"
         >
           {inputLabel}
         </label>
         <Input
           id={`${controlId}-input`}
-          placeholder={`Input ${inputLabel}`}
+          placeholder={`${inputLabel}`}
           type="number"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className="block w-full p-2 border border-gray-300 rounded-lg bg-gray-50 sm:text-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:ring-blue-500 focus:border-blue-500"
+          className="rounded-2xl"
         />
       </div>
-      <div className="mb-4">
+      <div className="mb-4 grid gap-3">
         <label
           htmlFor={`${controlId}-output`}
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-sm font-bold"
         >
-          {outputLabel}
+          Cipher Text
         </label>
         <div className="flex items-center gap-2">
           <Input
@@ -72,10 +72,10 @@ const GroupInput = ({ group, fhEVM }) => {
             type="text"
             value={encryptedValue}
             readOnly
-            className="block w-full p-2 border border-gray-300 rounded-lg bg-gray-50 sm:text-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:ring-blue-500 focus:border-blue-500"
+            className="rounded-2xl"
           />
-          <CopyIcon
-            className="w-6 h-6 cursor-pointer text-gray-600 dark:text-gray-400"
+          <div
+            className="bg-[#3673F5] rounded-lg"
             onClick={() => {
               try {
                 navigator.clipboard.writeText(encryptedValue);
@@ -85,7 +85,14 @@ const GroupInput = ({ group, fhEVM }) => {
                 toast.error("Error copying to clipboard");
               }
             }}
-          />
+          >
+            <Image
+              width={40}
+              height={40}
+              src="/copy.svg"
+              className="p-3 cursor-pointer text-white rounded-lg"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -106,34 +113,25 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center  p-16">
-      <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-between bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-        <a
-          className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-          href="https://www.inco.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {/* By{" "} */}
-          <Image
-            src="/next.svg"
-            alt="Vercel Logo"
-            className="dark:invert"
-            width={100}
-            height={24}
-            priority
-          />
-        </a>
-      </div>
+    <main className="">
       {authenticated ? (
-        <div className="h-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-x-20 lg:max-w-5xl mt-20">
-          {groups.map((group) => (
-            <GroupInput key={group.controlId} group={group} fhEVM={fhEVM} />
-          ))}
+        <div className="py-6 grid place-items-center p-4 md:p-0">
+          <div className="max-w-6xl w-full grid gap-x-20 md:grid-cols-2 mt-6 md:mt-12">
+            {groups.map((group, index) => (
+              <div className={`${index === 2 ? "col-span-2" : ""}`}>
+                <GroupInput key={group.controlId} group={group} fhEVM={fhEVM} />
+              </div>
+            ))}
+          </div>
         </div>
       ) : (
         <Login />
       )}
     </main>
   );
+}
+{
+  /* <div className="h-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-x-20 lg:max-w-5xl mt-20">
+
+</div> */
 }
