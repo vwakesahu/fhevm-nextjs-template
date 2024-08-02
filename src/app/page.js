@@ -1,10 +1,10 @@
 "use client";
+import Loader from "@/components/Loader";
 import Login from "@/components/login";
 import { Input } from "@/components/ui/input";
 import { getInstance } from "@/utils/fhEVM";
 import { toHexString } from "@/utils/utils";
 import { usePrivy } from "@privy-io/react-auth";
-import { CopyIcon } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -91,6 +91,7 @@ const GroupInput = ({ group, fhEVM }) => {
               height={40}
               src="/copy.svg"
               className="p-3 cursor-pointer text-white rounded-lg"
+              alt="copy"
             />
           </div>
         </div>
@@ -100,17 +101,23 @@ const GroupInput = ({ group, fhEVM }) => {
 };
 
 export default function Home() {
-  const { authenticated } = usePrivy();
+  const { authenticated, ready } = usePrivy();
   const [fhEVM, setFhEVM] = useState(null);
 
   useEffect(() => {
     const getFHEVMInstance = async () => {
       const fhevmInstance = await getInstance();
       setFhEVM(fhevmInstance);
-      console.log("instanceCreated");
     };
     getFHEVMInstance();
   }, []);
+  if (!ready) {
+    return (
+      <div className="mt-32 w-full flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <main className="">
@@ -118,7 +125,7 @@ export default function Home() {
         <div className="py-6 grid place-items-center p-4 md:p-0">
           <div className="max-w-6xl w-full grid gap-x-20 md:grid-cols-2 mt-6 md:mt-12">
             {groups.map((group, index) => (
-              <div className={`${index === 2 ? "col-span-2" : ""}`}>
+              <div className={`${index === 2 ? "col-span-2" : ""}`} key={index}>
                 <GroupInput key={group.controlId} group={group} fhEVM={fhEVM} />
               </div>
             ))}
@@ -129,9 +136,4 @@ export default function Home() {
       )}
     </main>
   );
-}
-{
-  /* <div className="h-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-x-20 lg:max-w-5xl mt-20">
-
-</div> */
 }

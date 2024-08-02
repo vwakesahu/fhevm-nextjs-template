@@ -17,17 +17,17 @@ const Header = () => {
   return (
     <div className="py-6 bg-white grid place-items-center">
       <div className="max-w-6xl w-full flex items-center justify-between px-4 md:px-0">
-        <Image src={"/logo.svg"} width={125} height={36} />
+        <Image src={"/logo.svg"} width={125} height={36} alt="inco-logo" />
         {authenticated && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className="font-bold text-lg flex items-center gap-3 text-[#727272]">
+              <div className="font-bold text-lg flex items-center gap-3 text-[#727272] cursor-pointer">
                 {w0 && w0.address && truncateAddress(w0.address, 4, 2)}
-                <Image src={"/drop-down.svg"} width={16} height={16} />
+                <Image src={"/drop-down.svg"} width={16} height={16} alt="drop-down-icon"/>
               </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-              <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={logout} className='text-center flex w-full items-center justify-center font-semibold'>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )}

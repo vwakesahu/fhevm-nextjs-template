@@ -22,7 +22,7 @@ export default function Login() {
           <Button onClick={login} className="w-44 h-14 rounded-2xl">
             Connect Wallet
           </Button>
-          <Link href="/docs">
+          <Link href="https://docs.inco.org/">
             <Button variant="outline" className="w-44 h-14 rounded-2xl">
               See Docs
             </Button>
